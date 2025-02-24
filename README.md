@@ -255,7 +255,35 @@ END;
 ### Introduction to Records
 Records adalah tipe data yang dapat menyimpan banyak nilai dalam satu variabel.
 
-### Using Records in PL/SQL
+
+### Using Record in PL/SQL
+untuk membuat Record menggunakan kata kunci "IS RECORD"
+```sql
+DECLARE 
+--    MENGGUNAKAN TYPE DIIKUTI NAMA RECORD YANG AKAN DIBUAT LALU BERI TAHU DENGAN IS RECORD
+    TYPE employee_record IS RECORD(
+        emp_id NUMBER,
+        emp_name VARCHAR2(100),
+        salary NUMBER
+    );
+    
+    emp employee_record;
+BEGIN
+    emp.emp_id := 1;
+    emp.emp_name := 'fajar abdillah ahmad';
+    emp.salary := 10000000;
+    
+    DBMS_OUTPUT.PUT_LINE('EMPLOYEE ID : ' || emp.emp_id);
+    DBMS_OUTPUT.PUT_LINE('EMPLOYEE NAME : ' || emp.emp_name);
+    DBMS_OUTPUT.PUT_LINE('EMPLOYEE SALARY : ' || emp.salary);
+END;
+/
+
+
+```
+
+### Using Records With Table Row in PL/SQL
+jika menggunakan Row pastikan sudah memiliki table yang ingin digunakan
 ```sql
 DECLARE
     TYPE customer_record IS RECORD (
