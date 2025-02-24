@@ -1,4 +1,3 @@
-
 # PL/SQL Learning Repository
 
 ## Introduction to Databases
@@ -164,6 +163,106 @@ EXCEPTION
         DBMS_OUTPUT.PUT_LINE('Error: Pembagian dengan nol tidak diperbolehkan.');
     WHEN OTHERS THEN
         DBMS_OUTPUT.PUT_LINE('Error lain terjadi.');
+END;
+/
+```
+
+## Triggers
+
+### Introduction to Triggers
+Triggers adalah prosedur yang dijalankan secara otomatis saat terjadi peristiwa tertentu pada tabel.
+
+### Creating a Simple Trigger
+```sql
+CREATE OR REPLACE TRIGGER before_insert_customer
+BEFORE INSERT ON customers
+FOR EACH ROW
+BEGIN
+    DBMS_OUTPUT.PUT_LINE('Customer baru ditambahkan: ' || :NEW.name);
+END;
+/
+```
+
+## Collections
+
+### Introduction to Collections
+Collections adalah struktur data dalam PL/SQL yang dapat menyimpan banyak elemen, ada 3 yaitu type assosiative array, varray, nested.
+
+### Using ASSOSIATIVE ARRAY
+```sql
+SET SERVEROUTPUT ON;
+
+DECLARE 
+    TYPE population IS TABLE OF NUMBER
+        INDEX BY VARCHAR2(64);
+    city_population population;
+    i VARCHAR2(64);
+    
+BEGIN
+    city_population('SMALLVILLE') := 2000;
+    city_population('MIDLAND') := 4000;
+    city_population('MEGALOPOLIS') := 10000;
+    
+    city_population('SMALLVILLE') := 4500;
+    
+    i := city_population.FIRST;
+    
+    WHILE i IS NOT NULL LOOP
+        DBMS_OUTPUT.PUT_LINE('population of ' || i || ' is ' || city_population(i));
+        i := city_population.NEXT(i);
+    END LOOP;
+END;
+/
+```
+
+### Using VARRAY
+```sql
+DECLARE
+    TYPE arr_type IS VARRAY(5) OF VARCHAR2(20);
+    v_names arr_type := arr_type('Ali', 'Budi', 'Citra');
+BEGIN
+    FOR i IN 1..v_names.COUNT LOOP
+        DBMS_OUTPUT.PUT_LINE(v_names(i));
+    END LOOP;
+END;
+/
+```
+
+### Using NESTED
+```sql
+DECLARE
+  TYPE nested_type IS TABLE OF VARCHAR2(100);
+  my_nested nested_type := nested_type();
+BEGIN
+  my_nested.EXTEND(3);
+  my_nested(1) := 'One';
+  my_nested(2) := 'Two';
+  my_nested(3) := 'Three';
+  
+  FOR i IN 1..my_nested.COUNT LOOP
+    DBMS_OUTPUT.PUT_LINE(my_nested(i));
+  END LOOP;
+END;
+/
+```
+
+
+## Records
+
+### Introduction to Records
+Records adalah tipe data yang dapat menyimpan banyak nilai dalam satu variabel.
+
+### Using Records in PL/SQL
+```sql
+DECLARE
+    TYPE customer_record IS RECORD (
+        id customers.id%TYPE,
+        name customers.name%TYPE
+    );
+    v_customer customer_record;
+BEGIN
+    SELECT id, name INTO v_customer FROM customers WHERE id = 1;
+    DBMS_OUTPUT.PUT_LINE('Customer: ' || v_customer.name);
 END;
 /
 ```
