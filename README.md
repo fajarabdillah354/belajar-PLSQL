@@ -189,6 +189,7 @@ END;
 Collections adalah struktur data dalam PL/SQL yang dapat menyimpan banyak elemen, ada 3 yaitu type assosiative array, varray, nested.
 
 ### Using ASSOSIATIVE ARRAY
+Associative Array cocok digunakan untuk menyimpan pasangan key-value dan tidak memiliki batasan ukuran. Perhatikan contoh dibawah ini
 ```sql
 SET SERVEROUTPUT ON;
 
@@ -216,6 +217,7 @@ END;
 ```
 
 ### Using VARRAY
+VARRAY cocok digunakan jika jumlah elemen sudah diketahui sejak awal dan harus tetap dalam urutan yang sama. Perhatikan contoh dibawah ini
 ```sql
 DECLARE
     TYPE arr_type IS VARRAY(5) OF VARCHAR2(20);
@@ -229,6 +231,7 @@ END;
 ```
 
 ### Using NESTED
+Nested Table cocok digunakan untuk menyimpan kumpulan data yang dapat bertambah atau berkurang secara dinamis. Perhatikan contoh dibawah ini
 ```sql
 DECLARE
   TYPE nested_type IS TABLE OF VARCHAR2(100);
