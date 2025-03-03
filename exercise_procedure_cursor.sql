@@ -70,7 +70,8 @@ IS
     v_saldo rekening.saldo%type;
     CURSOR c1 IS
     SELECT nama_nasabah, saldo FROM rekening
-    WHERE ROWNUM<=3;
+    WHERE ROWNUM<=3
+    ORDER BY saldo DESC;
 BEGIN
     OPEN c1;
     LOOP
