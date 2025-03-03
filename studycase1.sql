@@ -428,5 +428,48 @@ SELECT ROUND(AVG(return_date - loan_date), 1)AS avg_loan_days
 FROM loans
 WHERE return_date IS NOT NULL;
 
+SELECT * FROM books;
+SELECT * FROM members;
 
+
+SET SERVEROUTPUT ON;
+BEGIN
+    borrow_book(6,6,14);
+END;
+/
+
+SELECT
+    COUNT(*) AS total_books,
+    SUM(available_copies) AS total_available_books,
+    SUM(total_copies - available_copies) AS total_borrow_books
+FROM books;
+
+
+SELECT 
+    c.category_name,
+    SUM(b.available_copies) AS available_copies,
+    SUM(b.total_copies - available_copies) AS borrowed_book
+FROM books b
+JOIN categories c ON b.category_id = c.category_id
+GROUP BY c.category_name
+ORDER BY c.category_name;
+
+SELECT
+    m.member_id,
+    m.first_name || ' ' || m.last_name AS member_name,
+    COUNT(l.loan_id) AS total_loans
+FROM members m
+JOIN loans l ON m.member_id =  l.loan_id
+GROUP BY m.member_id, m.first_name, m.last_name
+ORDER BY total_loans DESC;
+
+SELECT
+    b.book_id,
+    c.category_name AS category,
+    b.title AS books_title, 
+    MAX(b.total_copies) AS max_total_copies
+FROM books b
+JOIN categories c ON b.category_id = c.category_id
+GROUP BY b.book_id, c.category_name, b.title
+ORDER BY max_total_copies DESC;
 
